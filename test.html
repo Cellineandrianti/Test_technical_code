@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Numbers</title>
+</head>
+<body>
+
+    <form id="numberForm">
+        <label for="numberInput">Input Angka:</label>
+        <input type="text" id="numberInput" required>
+        <br>
+        <button type="button" onclick="generateResult(1)">Generate Segitiga</button>
+        <button type="button" onclick="generateResult(2)">Generate Bilangan Ganjil</button>
+        <button type="button" onclick="generateResult(3)">Generate Bilangan Prima</button>
+    </form>
+
+    <div id="resultContainer"></div>
+
+    <script>
+        function generateResult(menu) {
+            var numberInput = document.getElementById("numberInput").value;
+
+            // Validasi angka
+            if (!/^\d+$/.test(numberInput)) {
+                alert("Input harus berupa angka.");
+                return;
+            }
+
+            // Handle result based on the menu
+            if (menu === 1) {
+                generatesegitiga(numberInput);
+            } else if (menu === 2) {
+                generatebilanganganjil(numberInput);
+            } else if (menu === 3) {
+                generatebilanganprima(numberInput);
+            } else {
+                var resultContainer = document.getElementById("resultContainer");
+                resultContainer.innerHTML = "Opsi Tidak Valid";
+            }
+        }
+
+        function generatesegitiga(n) {
+            angka_str = n.toString();
+            result = [];
+            for (i = 0; i < angka_str.length; i++) {
+                result.push(angka_str.slice(0, i + 1).padEnd(angka_str.length, '0'));
+            }
+            var resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = result.join("<br>");
+        }
+
+        function generatebilanganganjil(n) {
+            ganjil = Array.from({ length: n }, (_, i) => 2 * i + 1);
+            var resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "Bilangan Ganjil: " + ganjil.filter(e => e <= n).join(", ");
+        }
+
+        function is_prima(num) {
+            if (num < 2) {
+                return false;
+            }
+            for (i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function generatebilanganprima(n) {
+            prima = [];
+            for (i = 2; i <= n; i++) {
+                if (is_prima(i)) {
+                    prima.push(i);
+                }
+            }
+            var resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "Bilangan Prima: " + prima.join(", ");
+        }
+    </script>
+
+</body>
+</html>
